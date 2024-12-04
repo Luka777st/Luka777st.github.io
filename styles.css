@@ -52,4 +52,89 @@ body {
 
 .front-face {
   transform: rotateY(180deg);
+} 
+
+
+.dial {
+  width: 100%; 
+  max-width: 400px;
+  padding: 20px;
+  border: none;
+  border-radius: 10px;
+  background-color: #fff;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column; 
+  position: fixed; 
+  top: 50%; 
+  left: 50%; 
+  transform: translate(-50%, -50%); 
+  z-index: 1000; 
+  opacity: 1; 
+  visibility: visible;
+}
+
+
+dialog h2 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+}
+
+dialog p {
+  margin: 5px 0;
+  font-size: 16px;
+  color: #555;
+}
+
+dialog a {
+  color: #007BFF;
+  text-decoration: none;
+}
+
+
+#megaman {
+  max-width: 150px;
+  height: auto;
+  margin-left: 20px;
+  
+}
+
+
+dialog button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #007BFF;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+dialog button:hover {
+  background-color: #0056b3;
+}
+
+
+  
+
+#timer {
+  font-size: 24px;
+  font-weight: bold;
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background-color: #fff;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#timeDisplay {
+  color: #333;
 }

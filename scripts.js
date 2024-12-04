@@ -1,10 +1,45 @@
-const cards = document.querySelectorAll('.memory-card');
+const dialog = document.getElementById('myDialog');
+const closeDialogBtn = document.getElementById('close');
+const dontShowAgainBtn = document.getElementById('dontShowAgain');
+let timeElapsed = 0;
+let bestTime = localStorage.getItem('bestTime') ? parseInt(localStorage.getItem('bestTime')) : Infinity; 
+let timerInterval;
+let cartetrouve = 0;
 
+if (localStorage.getItem('dialogRemoved') !== 'true') {
+    dialog.showModal();
+    console.log('Le dialogue a été affiché');
+}
+
+closeDialogBtn.onclick = function () {
+  dialog.remove(); 
+};
+
+dontShowAgainBtn.onclick = function () {
+  dialog.remove(); 
+  localStorage.setItem('dialogRemoved', 'true'); 
+  console.log('Le dialogue ne sera plus affiché.');
+};
+
+function startTimer() {
+  if (timeElapsed === 0 && !timerInterval) {
+    timerInterval = setInterval(() => {
+      timeElapsed++;
+      timerDisplay.textContent = `Temps : ${timeElapsed}`;
+    }, 1000); // Chronomètre mis à jour toutes les secondes
+  }
+}
+
+// Logique du jeu de mémoire
+const cards = document.querySelectorAll('.memory-card'); 
+const timerDisplay = document.getElementById('timer');
+const bestTimeDisplay = document.getElementById('best-time'); // Élément pour afficher le meilleur temps
 let hasFlippedCard = false;
 let lockBoard = false;
 let firstCard, secondCard;
 
 function flipCard() {
+  startTimer();
   if (lockBoard) return;
   if (this === firstCard) return;
 
@@ -14,7 +49,6 @@ function flipCard() {
     // first click
     hasFlippedCard = true;
     firstCard = this;
-
     return;
   }
 
@@ -26,7 +60,6 @@ function flipCard() {
 
 function checkForMatch() {
   let isMatch = firstCard.dataset.framework === secondCard.dataset.framework;
-
   isMatch ? disableCards() : unflipCards();
 }
 
@@ -35,6 +68,7 @@ function disableCards() {
   secondCard.removeEventListener('click', flipCard);
 
   resetBoard();
+  checkWin();
 }
 
 function unflipCards() {
@@ -43,9 +77,8 @@ function unflipCards() {
   setTimeout(() => {
     firstCard.classList.remove('flip');
     secondCard.classList.remove('flip');
-
     resetBoard();
-  }, 1500);
+  }, 800);
 }
 
 function resetBoard() {
@@ -53,6 +86,7 @@ function resetBoard() {
   [firstCard, secondCard] = [null, null];
 }
 
+// Mélanger les cartes
 (function shuffle() {
   cards.forEach(card => {
     let randomPos = Math.floor(Math.random() * 12);
@@ -61,3 +95,18 @@ function resetBoard() {
 })();
 
 cards.forEach(card => card.addEventListener('click', flipCard));
+
+function checkWin() {
+  cartetrouve++;
+  if (cartetrouve == 6) {
+    clearInterval(timerInterval); // Arrêter le chronomètre
+    if (timeElapsed < bestTime) {
+      bestTime = timeElapsed; // Mettre à jour le meilleur temps
+      localStorage.setItem('bestTime', bestTime); // Sauvegarder le meilleur temps dans localStorage
+      console.log('Nouveau meilleur temps: ', bestTime);
+    }
+  }
+}
+
+// Afficher le meilleur temps au début
+bestTimeDisplay.textContent = `Meilleur Temps: ${bestTime === Infinity ? 'Aucun' : bestTime} secondes`;
