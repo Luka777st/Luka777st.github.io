@@ -26,14 +26,14 @@ function startTimer() {
     timerInterval = setInterval(() => {
       timeElapsed++;
       timerDisplay.textContent = `Temps : ${timeElapsed}`;
-    }, 1000); // Chronomètre mis à jour toutes les secondes
+    }, 1000); 
   }
 }
 
 // Logique du jeu de mémoire
 const cards = document.querySelectorAll('.memory-card'); 
 const timerDisplay = document.getElementById('timer');
-const bestTimeDisplay = document.getElementById('best-time'); // Élément pour afficher le meilleur temps
+const bestTimeDisplay = document.getElementById('best-time'); 
 let hasFlippedCard = false;
 let lockBoard = false;
 let firstCard, secondCard;
@@ -86,7 +86,7 @@ function resetBoard() {
   [firstCard, secondCard] = [null, null];
 }
 
-// Mélanger les cartes
+
 (function shuffle() {
   cards.forEach(card => {
     let randomPos = Math.floor(Math.random() * 12);
@@ -99,10 +99,10 @@ cards.forEach(card => card.addEventListener('click', flipCard));
 function checkWin() {
   cartetrouve++;
   if (cartetrouve == 6) {
-    clearInterval(timerInterval); // Arrêter le chronomètre
+    clearInterval(timerInterval); 
     if (timeElapsed < bestTime) {
-      bestTime = timeElapsed; // Mettre à jour le meilleur temps
-      localStorage.setItem('bestTime', bestTime); // Sauvegarder le meilleur temps dans localStorage
+      bestTime = timeElapsed; 
+      localStorage.setItem('bestTime', bestTime); 
       console.log('Nouveau meilleur temps: ', bestTime);
     }
   }
